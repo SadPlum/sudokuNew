@@ -2,147 +2,162 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link rel="stylesheet" href="sudokuStyle.css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Sudoku</title>
+    <link rel="stylesheet" href="sudokuStyle.css" />
 </head>
 
 <body>
-  <div class="title">
-    <h1>Sudoku Solver</h1>
-  </div>
-  <div class="buttonZone">
-    <div class="selections">
-      <label for="boards">Select a board:</label>
-      <select name="boards" id="boards">
-        <option value="board1">Board 1</option>
-        <option value="board2">Board 2</option>
-        <option value="board3">Board 3</option>
-        <option value="hardBoard">Hard Board</option>
-      </select>
-      <button class="btn" id="select">Select</button>
-    </div>
-    <div class="selections">
-      <label for="speeds">Solver speed:</label>
-      <select name="speed" id="speeds">
-        <option value=500>Slow</option>
-        <option value=250>Medium</option>
-        <option value=100>Fast</option>
-        <option value=0>Very Fast</option>
-      </select>
-      <button class="btn" id="solver">Solve</button>
-    </div>
-  </div>
-  <div class="gameZone">
-    <div id="board">
-      <table id="table">
-        <tr class="block topRow" id="block1">
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-        </tr>
-        <tr class="block topRow" id="block2">
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-        </tr>
-        <tr class="block topRow" id="block3">
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-        </tr>
-        <tr class="block midRow" id="block4">
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-        </tr>
-        <tr class="block midRow" id="block5">
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-        </tr>
-        <tr class="block midRow" id="block6">
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-        </tr>
-        <tr class="block botRow" id="block7">
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-        </tr>
-        <tr class="block botRow" id="block8">
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-        </tr>
-        <tr class="block botRow" id="block9">
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell acc" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-          <td class="cell" id=""></td>
-        </tr>
-      </table>
-    </div>
+    <main class="playPage">
+        <header>
+            <section class="buttonZone">
+                <button class="btn" id="newGameBtn">New Game</button>
+                <button class="btn" id="giveHintBtn">Hint</button>
+                <button class="btn" id="checkBtn">Check board</button>
+                <button class="btn" id="solveBtn">Solve Board</button>
+            </section>
+        </header>
+        <div class="gameZone playPage">
+            <div id="board">
+                <table id="table">
+                    <tr class="block topRow" id="block1">
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                    </tr>
+                    <tr class="block topRow" id="block2">
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                    </tr>
+                    <tr class="block topRow" id="block3">
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                    </tr>
+                    <tr class="block midRow" id="block4">
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                    </tr>
+                    <tr class="block midRow" id="block5">
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                    </tr>
+                    <tr class="block midRow" id="block6">
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                    </tr>
+                    <tr class="block botRow" id="block7">
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                    </tr>
+                    <tr class="block botRow" id="block8">
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                    </tr>
+                    <tr class="block botRow" id="block9">
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="input cell acc"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                        <td class="" id=""><input type="text" name="" class="cell input"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
 
-  </div>
-
-  <script src="sudoku.js"></script>
+    <section id="gamePopup" class="">
+        <div id="askReset" class="ask hidden">
+            <h4>Would you like to reset your game?</h4>
+            <div class="buttonAsk">
+                <button class="btn" id="resetYes">Yes</button>
+                <button class="btn" id="resetNo">No</button>
+            </div>
+        </div>
+        <div id="askDifficulty" class="ask hidden">
+            <h4>What difficulty would you like to play?</h4>
+            <div class="buttonAsk">
+                <div class="difficultyArea">
+                    <button class="diff-btn" value=50>Beginner</button>
+                    <button class="diff-btn" value=40>Easy</button>
+                    <button class="diff-btn" value=30>Medium</button>
+                </div>
+                <div class="difficultyArea">
+                    <button class="diff-btn" value=25>Hard</button>
+                    <button class="diff-btn" value=20>Evil</button>
+                    <button class="diff-btn" value=17>Diabolical</button>
+                </div>
+            </div>
+        </div>
+        <div id="askHelp" class="ask hidden">
+            <h4>Would you like to have wrong answers appear? (in red border)</h4>
+            <div class="buttonAsk">
+                <button class="btn" id="helpYes">Yes</button>
+                <button class="btn" id="helpNo">No</button>
+                <div class="buttonAsk"></div>
+            </div>
+    </section>
+    <script src="generate.js"></script>
 </body>
 
 </html>

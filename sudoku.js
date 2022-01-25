@@ -354,13 +354,13 @@ const smartBrute = (board) => {
     }, timer);
     smartBrute(board);
   }
-  if (emptyCell(board)[0] !== -1) {
-    board[y][x] = 0;
-    setTimeout(() => {
-      cells[cellInd].innerHTML = "";
-    }, timer);
-    return board;
-  }
+  // if (emptyCell(board)[0] !== -1) {
+  //   board[y][x] = 0;
+  //   setTimeout(() => {
+  //     cells[cellInd].innerHTML = "";
+  //   }, timer);
+  //   return board;
+  // }
 };
 
 const start = () => {

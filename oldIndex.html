@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="sudokuStyle.css" />
+</head>
+
+<body>
+  <div class="title">
+    <h1>Sudoku Solver</h1>
+  </div>
+  <div class="buttonZone">
+    <div class="selections">
+      <label for="boards">Select a board:</label>
+      <select name="boards" id="boards">
+        <option value="board1">Board 1</option>
+        <option value="board2">Board 2</option>
+        <option value="board3">Board 3</option>
+        <option value="hardBoard">Hard Board</option>
+      </select>
+      <button class="btn" id="select">Select</button>
+    </div>
+    <div class="selections">
+      <label for="speeds">Solver speed:</label>
+      <select name="speed" id="speeds">
+        <option value=500>Slow</option>
+        <option value=250>Medium</option>
+        <option value=100>Fast</option>
+        <option value=0>Very Fast</option>
+      </select>
+      <button class="btn" id="solver">Solve</button>
+    </div>
+  </div>
+  <div class="gameZone">
+    <div id="board">
+      <table id="table">
+        <tr class="block topRow" id="block1">
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+        </tr>
+        <tr class="block topRow" id="block2">
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+        </tr>
+        <tr class="block topRow" id="block3">
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+        </tr>
+        <tr class="block midRow" id="block4">
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+        </tr>
+        <tr class="block midRow" id="block5">
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+        </tr>
+        <tr class="block midRow" id="block6">
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+        </tr>
+        <tr class="block botRow" id="block7">
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+        </tr>
+        <tr class="block botRow" id="block8">
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+        </tr>
+        <tr class="block botRow" id="block9">
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell acc" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+          <td class="cell" id=""></td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+  <script src="sudoku.js"></script>
+</body>
+
+</html>
