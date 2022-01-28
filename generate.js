@@ -27,20 +27,24 @@ const blankArray = [
 ];
 
 const cells = document.querySelectorAll(".cell");
-const diffBtns = document.querySelectorAll('.diff-btn');
+const diffBtns = document.querySelectorAll(".diff-btn");
 const hintBtn = document.querySelector("#giveHintBtn");
-const checkBtn = document.querySelector('#checkBtn');
-const solveBtn = document.querySelector('#solveBtn');
-const resetYes = document.querySelector('#resetYes');
-const resetNo = document.querySelector('#resetNo')
-const askReset = document.querySelector('#askReset');
-const askDifficulty = document.querySelector('#askDifficulty');
-const askHelp = document.querySelector('#askHelp')
-const helpYes = document.querySelector('#helpYes')
-const helpNo = document.querySelector('#helpNo')
-const gameBtn = document.querySelector('#newGameBtn')
+const checkBtn = document.querySelector("#checkBtn");
+const solveBtn = document.querySelector("#solveBtn");
+const resetYes = document.querySelector("#resetYes");
+const resetNo = document.querySelector("#resetNo");
+const askReset = document.querySelector("#askReset");
+const askDifficulty = document.querySelector("#askDifficulty");
+const askHelp = document.querySelector("#askHelp");
+const helpYes = document.querySelector("#helpYes");
+const helpNo = document.querySelector("#helpNo");
+const gameBtn = document.querySelector("#newGameBtn");
+const cover = document.querySelector("#cover");
+const numberDisplay = document.querySelectorAll(".number");
+const boardYes = document.querySelector("#boardYes");
+const boardNo = document.querySelector("#boardNo");
 
-
+const btnArr = [gameBtn, hintBtn, solveBtn, checkBtn];
 
 // copies multy layered array as shallow copy
 function getCopyOfBoard(mat) {
@@ -48,73 +52,104 @@ function getCopyOfBoard(mat) {
 }
 
 // only allows numbers and 1 digit in a cell
-cells.forEach(e => e.addEventListener('input', function(){
-  e.classList.remove('wrong');
-  let num = e.value;
-  if (isNaN(num) == true || num == "0"){e.value = ''}
-  if (num.length > 1) {e.value = e.value[1]}
-  updatePlayStr();
-  if (helpOn) {checkWrong()}
-}))
+cells.forEach((e) =>
+  e.addEventListener("input", function () {
+    e.classList.remove("wrong");
+    let num = e.value;
+    if (isNaN(num) == true || num == "0") {
+      e.value = "";
+    }
+    if (num.length > 1) {
+      e.value = e.value[1];
+    }
+    updatePlayStr();
+    if (helpOn) {
+      checkWrong();
+    }
+    updateNumberDisplay(e.value);
+  })
+);
+
+let firstGame = true;
 
 // game reset btn sequence
-gameBtn.addEventListener("click", function() {
-  askReset.classList.remove('hidden');
-})
+gameBtn.addEventListener("click", function () {
+  cover.classList.add("cover");
+  if (firstGame) {
+    btnArr.forEach((e) => (e.disabled = true));
+    askDifficulty.classList.remove("hidden");
+    firstGame = false;
+  } else {
+    askReset.classList.remove("hidden");
+    btnArr.forEach((e) => (e.disabled = true));
+  }
+});
 
-resetYes.addEventListener('click', function() {
-  askReset.classList.add('hidden')
-  askDifficulty.classList.remove('hidden')
-})
+resetYes.addEventListener("click", function () {
+  askReset.classList.add("hidden");
+  askDifficulty.classList.remove("hidden");
+});
 
-resetNo.addEventListener('click', function() {
-  askReset.classList.add('hidden')
-})
+resetNo.addEventListener("click", function () {
+  askReset.classList.add("hidden");
+  btnArr.forEach((e) => (e.disabled = false));
+  cover.classList.remove("cover");
+});
 
 let difficulty;
-diffBtns.forEach(e => e.addEventListener('click', function(){
-  difficulty = e.value;
-  askDifficulty.classList.add('hidden');
-  askHelp.classList.remove('hidden');
-}))
+diffBtns.forEach((e) =>
+  e.addEventListener("click", function () {
+    difficulty = e.value;
+    askDifficulty.classList.add("hidden");
+    askHelp.classList.remove("hidden");
+  })
+);
 
 let helpOn = false;
-helpYes.addEventListener('click', function() {
-helpOn = true;
-askHelp.classList.add('hidden');
-cells.forEach(e => e.classList.remove('wrong'));
-newGame(difficulty);
-})
+helpYes.addEventListener("click", function () {
+  helpOn = true;
+  askHelp.classList.add("hidden");
+  cover.classList.remove("cover");
+  btnArr.forEach((e) => (e.disabled = false));
+  cells.forEach((e) => e.classList.remove("wrong"));
+  newGame(difficulty);
+});
 
-helpNo.addEventListener('click', function() {
+helpNo.addEventListener("click", function () {
   helpOn = false;
-  askHelp.classList.add('hidden');
-  cells.forEach(e => e.classList.remove('wrong'))
-newGame(difficulty);
-})
+  askHelp.classList.add("hidden");
+  cover.classList.remove("cover");
+  btnArr.forEach((e) => (e.disabled = false));
+  cells.forEach((e) => e.classList.remove("wrong"));
+  newGame(difficulty);
+});
 
 // checks for wrong answers
-checkBtn.addEventListener('click', function() {
+checkBtn.addEventListener("click", function () {
   checkWrong();
-})
+});
 
 // gives a random him
-hintBtn.addEventListener('click', function(){
+hintBtn.addEventListener("click", function () {
   giveHint();
-})
+});
 
-solveBtn.addEventListener('click', function(){
-  for (let i =0; i<81; i++) {
-    playStr[i] = gameStr[i];
-    cells[i].value = gameStr[i];
+solveBtn.addEventListener("click", function () {
+  let timer = 10;
+  for (let i = 0; i < 81; i++) {
+    timer += 10;
+    if (playStr[i] !== 0) continue;
+    setTimeout(function () {
+      playStr[i] = gameStr[i];
+      cells[i].value = gameStr[i];
+    }, timer);
   }
-})
+});
 
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 let cellNums = [...Array(81).keys()];
 let gameStr;
 let playStr;
-
 
 let numStr = [];
 const createNumStr = () => {
@@ -134,6 +169,10 @@ const updateNumStr = () => {
 const restartUI = () => {
   for (const cell of cells) {
     cell.value = "";
+    cell.disabled = false;
+    cell.classList.remove("hint");
+    cell.classList.remove("wrong");
+    cell.classList.remove("set");
   }
 };
 
@@ -148,36 +187,54 @@ const updateUI = () => {
 };
 
 const updatePlayStr = () => {
-  for (let i =0; i< 81; i++) {
-    if (cells[i].value =="") continue;
-    playStr[i]= Number(cells[i].value);
+  for (let i = 0; i < 81; i++) {
+    if (cells[i].value == "") continue;
+    playStr[i] = Number(cells[i].value);
   }
-}
+};
 
+const updateNumberDisplay = (num) => {
+  let count = 0;
+  for (const cell of cells) {
+    if (cell.value == num) {
+      count++;
+    }
+  }
+  if ((count = 9)) {
+    numberDisplay[count - 1].classList.add("done");
+  } else {
+    numberDisplay[count - 1].classList.remove("done");
+  }
+};
+
+// gives a hint
 const giveHint = () => {
   let nums = shuffle(cellNums);
-  for (let i =0; i< nums.length; i++) {
-    let cell = nums[i]
+  for (let i = 0; i < nums.length; i++) {
+    let cell = nums[i];
     if (playStr[cell] == 0) {
       playStr[cell] = gameStr[cell];
       cells[cell].value = playStr[cell];
-      return
+      cells[cell].classList.add("hint");
+      cells[cell].disabled = true;
+      return;
     }
     continue;
   }
-}
+};
 
 const checkWrong = () => {
-  for (let i=0; i< 81; i++) {
-    if (playStr[i]== 0 || playStr[i] =="") {
-      cells[i].classList.remove('wrong')
-      continue;}
-      
+  for (let i = 0; i < 81; i++) {
+    if (playStr[i] == 0 || playStr[i] == "") {
+      cells[i].classList.remove("wrong");
+      continue;
+    }
+
     if (playStr[i] !== gameStr[i]) {
-      cells[i].classList.add('wrong')
+      cells[i].classList.add("wrong");
     }
   }
-}
+};
 
 const shuffle = (numbers) => {
   let nums = numbers;
@@ -261,6 +318,8 @@ const createGameBoard = (diff) => {
   for (let i = 0; i < 81; i++) {
     if (i < diff) {
       cells[shuffled[i]].value = gameStr[shuffled[i]];
+      cells[shuffled[i]].disabled = true;
+      cells[shuffled[i]].classList.add("set");
       playStr[shuffled[i]] = gameStr[shuffled[i]];
     }
   }
@@ -309,6 +368,9 @@ const newGame = (diff) => {
   restartUI();
   generate();
   createGameBoard(diff);
+  for (let i = 1; i < 10; i++) {
+    updateNumberDisplay(i);
+  }
 };
 
 // solver functions
@@ -426,7 +488,6 @@ let numPool = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 let safeboard = [];
 
 let allBoards = [];
-
 
 let isCompleted = false;
 

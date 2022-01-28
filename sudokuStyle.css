@@ -1,8 +1,14 @@
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
-  background-color: rgba(0, 0, 70, 0.41);
-  font-family: "Roboto";
+  background-color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
 }
 
 h1 {
@@ -11,26 +17,39 @@ h1 {
   align-items: center;
 }
 
+td {
+  padding: 0;
+}
+
 .buttonZone {
+  margin-top: 25px;
   display: flex;
-  margin-bottom: 25px;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
+.btnRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0 20px;
+  width: 300px;
+  margin-bottom: 20px;
+}
+
 button {
-  border: 1px solid #001219;
+  border: 1px solid #aaaaaa;
+  margin: 0 10px;
   padding: 5px 10px;
   border-radius: 2px;
-  color: #005f73;
-  background-color: #001219;
-
-  display: flex;
+  color: #001219;
+  background-color: #aaaaaa;
+  width: 100px;
 }
 
 button:active {
-  background-color: #005f73;
+  background-color: #cecaca;
   color: #001219;
 }
 
@@ -46,11 +65,11 @@ button:active {
 }
 
 table {
-  border: 2px rgba(0, 0, 0, 0.7) solid;
+  border: 2px #001219 solid;
   padding: 0;
   margin: 0;
-  width: 100%;
-  height: 100%;
+  width: 300px;
+  height: 300px;
   border-spacing: 0;
 }
 
@@ -67,29 +86,35 @@ table {
   margin: auto;
 }
 
-.playPage {
-  margin-top: 2rem;
-}
-
 p {
   width: 300px;
 }
 
 .cell {
-  height: 32.875px;
-  width: 32.875px;
+  height: 33px;
+  width: 33px;
   margin: 0;
   border: 1px rgba(0, 0, 0, 0.7) solid;
   background-color: rgb(226, 231, 231);
   text-align: center;
+  font-weight: 300;
 }
 
 .wrong {
   border: 2px solid red;
 }
 
+.hint {
+  border: 2px solid #008000;
+}
+
 .acc {
-  background-color: rgba(0, 159, 156, 0.41);
+  background-color: #91bad6;
+}
+
+.set {
+  border: 1px black solid;
+  font-weight: 500;
 }
 
 input {
@@ -107,25 +132,30 @@ input {
 }
 
 .cell:focus-within {
-  border: 1px rgba(0, 0, 255, 0.7) solid;
+  border: 2px rgba(0, 0, 255, 0.7) solid;
 }
 
 #gamePopup {
   position: absolute;
-  top: 25%;
-  width: 15rem;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 15%;
+  left: 50%;
+  margin-left: -175px;
+
+  width: 350px;
   z-index: 9999;
 }
 
 .ask {
-  position: absolute;
-  background-color: thistle;
-  width: 15rem;
-  border-radius: 10%;
+  margin: auto;
+  background-color: rgb(226, 231, 231);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  border-radius: 2px;
   display: flex;
   border: 1px black solid;
   flex-direction: column;
@@ -137,12 +167,22 @@ input {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  flex-direction: row;
+  margin-bottom: 10px;
 }
 
 .difficultyArea {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+
+.diff-btn:nth-child(2) {
+  margin: 0;
+}
+
+.difficultyArea:first-child {
+  margin-bottom: 10px;
 }
 
 .gamePopup .btn {
@@ -153,5 +193,38 @@ input {
   display: none;
 }
 
-.blur {
+h4 {
+  margin: 10px;
+}
+
+.cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+}
+
+#numbers {
+  width: 301px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 33px;
+  height: 33px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.done {
+  color: #aaaaaa;
 }
