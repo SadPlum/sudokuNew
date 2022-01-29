@@ -16,15 +16,16 @@
     <main class="playPage">
         <div id="cover" class=""></div>
         <header>
+            
             <section class="buttonZone">
                 <div class="btnRow">      
                      <button class="btn" id="newGameBtn">New Game</button>
-                    <button class="btn" id="giveHintBtn">Hint</button>
+                    <button class="btn" id="giveHintBtn" disabled>Hint</button>
                 </div>
          
                     <div class="btnRow"
-                    >  <button class="btn" id="checkBtn">Check board</button>
-                        <button class="btn" id="solveBtn">Solve Board</button>
+                    >  <button class="btn" id="checkBtn" disabled>Check board</button>
+                        <button class="btn" id="solveBtn" disabled>Solve Board</button>
                     </div>
               
             </section>
@@ -143,6 +144,10 @@
                     <input type="text" disabled class="number" id="eight" value=8></input>
                     <input type="text" disabled class="number" id="nine" value=9></input>
                 </div>
+
+                <div id="ownBoardSettings" class="">
+                    <button class="btn hidden" id="ownBoardCheck" >Done</button>
+                </div>
             </div>
         </div>
     </main>
@@ -155,7 +160,7 @@
                 <button class="btn" id="resetNo">No</button>
             </div>
         </div>
-            <div class="ask hidden">
+            <div id="askOwnBoard" class="ask hidden">
                 <h4>Would you like to input your own board?</h4>
                 <div class="buttonAsk">
                     <button class="btn" id="boardYes">Yes</button>
@@ -182,8 +187,17 @@
             <div class="buttonAsk">
                 <button class="btn" id="helpYes">Yes</button>
                 <button class="btn" id="helpNo">No</button>
-                <div class="buttonAsk"></div>
+    
             </div>
+        </div>
+        <div id="playAgain" class="ask hidden">
+            <h4>Congradulations! You've solved the game. Would you like to play again?</h4>
+            <div class="buttonAsk">
+                 <button class="btn" id="againYes">Yes</button>
+                <button class="btn" id="againNo">No</button>
+            </div>
+           
+        </div>
     </section>
     <script src="generate.js"></script>
 </body>

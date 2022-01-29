@@ -111,7 +111,7 @@ const updateNumStr = () => {
 
 const restartUI = () => {
   for (const cell of cells) {
-    cell.innerHTML = "";
+    cell.value = "";
   }
   updateNumStr();
 };
@@ -120,7 +120,7 @@ const updateUI = () => {
   let i = 0;
   for (const cell of cells) {
     if (numStr[i] !== 0) {
-      cell.innerHTML = numStr[i];
+      cell.value = numStr[i];
     }
     i++;
   }
@@ -332,6 +332,7 @@ const easyBrute = () => {
 let iterations = 0;
 
 const smartBrute = (board) => {
+  console.log(iterations);
   iterations++;
   timer += 5;
   const ops = emptyCell(board);
@@ -350,17 +351,18 @@ const smartBrute = (board) => {
     }
     board[y][x] = num;
     setTimeout(() => {
-      cells[cellInd].innerHTML = num;
+      cells[cellInd].value = num;
     }, timer);
     smartBrute(board);
   }
-  // if (emptyCell(board)[0] !== -1) {
-  //   board[y][x] = 0;
-  //   setTimeout(() => {
-  //     cells[cellInd].innerHTML = "";
-  //   }, timer);
-  //   return board;
-  // }
+  if (emptyCell(board)[0] !== -1) {
+    board[y][x] = 0;
+
+    // setTimeout(() => {
+    //   cells[cellInd].innerHTML = "";
+    // }, timer);
+    return false;
+  }
 };
 
 const start = () => {
@@ -387,14 +389,17 @@ const isolate = () => {
         if (singleCube !== false) {
           insertNum(number, singleCube[0], singleCube[1]);
           control = 0;
+          updateUI();
           return;
         } else if (singleRow !== false) {
           insertNum(number, singleRow[0], singleRow[1]);
           control = 0;
+          updateUI();
           return;
         } else if (singleCol !== false) {
           insertNum(number, singleCol[0], singleCol[1]);
           control = 0;
+          updateUI();
           return;
         }
       }
@@ -428,14 +433,17 @@ async function run(ms) {
   while (isolated !== false) {
     start();
     isolated = isolate();
+
     await timeControl(ms);
   }
   if (emptyCell(board)[0] == -1) {
     console.log("finished");
     return;
   }
-  beginBrute();
+  easyBrute();
 }
+
+const buildUserBoard = () => {};
 
 // gives ui clean board
 restartUI();

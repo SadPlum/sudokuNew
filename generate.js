@@ -14,6 +14,18 @@ const blankBoard = [
   //   ["0", "0", "0", "0", "0", "0", "0", "0", "0"],
 ];
 
+const board3 = [
+  [0, 0, 4, 0, 2, 0, 7, 0, 3],
+  [8, 0, 0, 3, 0, 1, 2, 5, 0],
+  [2, 0, 0, 0, 0, 0, 0, 0, 9],
+  [0, 0, 0, 0, 3, 6, 9, 0, 1],
+  [1, 0, 7, 0, 0, 0, 0, 3, 6],
+  [3, 0, 0, 1, 4, 0, 0, 0, 0],
+  [0, 0, 0, 6, 7, 3, 8, 4, 2],
+  [0, 0, 0, 0, 0, 2, 0, 0, 0],
+  [0, 8, 2, 0, 0, 4, 0, 0, 0],
+];
+
 const blankArray = [
   [[], [], [], [], [], [], [], [], []],
   [[], [], [], [], [], [], [], [], []],
@@ -43,6 +55,11 @@ const cover = document.querySelector("#cover");
 const numberDisplay = document.querySelectorAll(".number");
 const boardYes = document.querySelector("#boardYes");
 const boardNo = document.querySelector("#boardNo");
+const ownBoard = document.querySelector("#askOwnBoard");
+const ownBoardCheck = document.querySelector("#ownBoardCheck");
+const playAgain = document.querySelector("#playAgain");
+const againYes = document.querySelector("#againYes");
+const againNo = document.querySelector("#againNo");
 
 const btnArr = [gameBtn, hintBtn, solveBtn, checkBtn];
 
@@ -66,18 +83,21 @@ cells.forEach((e) =>
     if (helpOn) {
       checkWrong();
     }
-    updateNumberDisplay(e.value);
+    if (e.value !== "") {
+      updateNumberDisplay(e.value);
+    }
   })
 );
 
 let firstGame = true;
+let customBoard = false;
 
 // game reset btn sequence
 gameBtn.addEventListener("click", function () {
   cover.classList.add("cover");
   if (firstGame) {
     btnArr.forEach((e) => (e.disabled = true));
-    askDifficulty.classList.remove("hidden");
+    askOwnBoard.classList.remove("hidden");
     firstGame = false;
   } else {
     askReset.classList.remove("hidden");
@@ -87,13 +107,43 @@ gameBtn.addEventListener("click", function () {
 
 resetYes.addEventListener("click", function () {
   askReset.classList.add("hidden");
-  askDifficulty.classList.remove("hidden");
+  askOwnBoard.classList.remove("hidden");
+  btnArr.forEach((e) => (e.disabled = false));
+  numberDisplay.forEach((e) => e.classList.remove("done"));
+  restartUI();
+  playStr = [];
+  gameStr = [];
+  board = getCopyOfBoard(blankBoard);
 });
 
 resetNo.addEventListener("click", function () {
   askReset.classList.add("hidden");
   btnArr.forEach((e) => (e.disabled = false));
   cover.classList.remove("cover");
+});
+
+boardYes.addEventListener("click", function () {
+  customBoard = true;
+  cover.classList.remove("cover");
+  btnArr.forEach((e) => (e.disabled = true));
+  askOwnBoard.classList.add("hidden");
+  ownBoardCheck.classList.remove("hidden");
+});
+
+boardNo.addEventListener("click", function () {
+  askOwnBoard.classList.add("hidden");
+  askDifficulty.classList.remove("hidden");
+});
+
+ownBoardCheck.addEventListener("click", function () {
+  let check = playerInsert();
+  console.log(check);
+  if (check) {
+    ownBoardCheck.classList.add("hidden");
+    askHelp.classList.remove("hidden");
+  } else {
+    alert("This board is not a legal board");
+  }
 });
 
 let difficulty;
@@ -111,8 +161,13 @@ helpYes.addEventListener("click", function () {
   askHelp.classList.add("hidden");
   cover.classList.remove("cover");
   btnArr.forEach((e) => (e.disabled = false));
-  cells.forEach((e) => e.classList.remove("wrong"));
-  newGame(difficulty);
+  cells.forEach((e) => {
+    e.classList.remove("wrong");
+  });
+
+  if (customBoard !== true) {
+    newGame(difficulty);
+  }
 });
 
 helpNo.addEventListener("click", function () {
@@ -121,7 +176,20 @@ helpNo.addEventListener("click", function () {
   cover.classList.remove("cover");
   btnArr.forEach((e) => (e.disabled = false));
   cells.forEach((e) => e.classList.remove("wrong"));
-  newGame(difficulty);
+  if (customBoard !== true) {
+    newGame(difficulty);
+  }
+});
+
+againYes.addEventListener("click", function () {
+  playAgain.classList.add("hidden");
+  askReset.classList.remove("hidden");
+  btnArr.forEach((e) => (e.disabled = true));
+});
+
+againNo.addEventListener("click", function () {
+  playAgain.classList.add("hidden");
+  cover.classList.remove("cover");
 });
 
 // checks for wrong answers
@@ -138,12 +206,18 @@ solveBtn.addEventListener("click", function () {
   let timer = 10;
   for (let i = 0; i < 81; i++) {
     timer += 10;
-    if (playStr[i] !== 0) continue;
     setTimeout(function () {
       playStr[i] = gameStr[i];
       cells[i].value = gameStr[i];
     }, timer);
   }
+  for (const nums of numberDisplay) {
+    nums.classList.add("done");
+  }
+  btnArr.forEach((btn) => {
+    btn.disabled = true;
+  });
+  gameBtn.disabled = false;
 });
 
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -186,7 +260,79 @@ const updateUI = () => {
   }
 };
 
+const playerInsert = () => {
+  board = getCopyOfBoard(blankBoard);
+  let i = 0;
+  for (let y = 0; y < 9; y++) {
+    for (let x = 0; x < 9; x++) {
+      board[y][x] = Number(cells[i].value);
+      i++;
+    }
+  }
+  playStr = blankBoard.flat();
+  updatePlayStr();
+  // checks for if number is only in row/col once
+  for (let y = 0; y < 9; y++) {
+    for (let i = 1; i < 10; i++) {
+      let count = 0;
+      for (let x = 0; x < 9; x++) {
+        if (board[y][x] == i) {
+          count++;
+        }
+        if (count > 1) {
+          return false;
+        }
+      }
+    }
+    // checks if number is in cube once
+    for (let r = 0; r < 9; r += 3) {
+      for (let c = 0; c < 9; c += 3) {
+        for (let num = 1; num < 10; num++) {
+          let row = Math.floor(r / 3) * 3;
+          let col = Math.floor(c / 3) * 3;
+          let count = 0;
+          for (let y = row; y < row + 3; y++) {
+            for (let x = col; x < col + 3; x++) {
+              if (num == board[y][x]) {
+                count++;
+              }
+              if (count > 1) {
+                return false;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  // if legal, solves board
+  easyBrute();
+  if (checkBoard(board) == true) {
+    gameBoard = getCopyOfBoard(board);
+    gameStr = gameBoard.flat();
+  }
+  playBoard = getCopyOfBoard(blankBoard);
+  for (let y = 0; y < 9; y++) {
+    for (let x = 0; x < 9; x++) {
+      let ind = strIndex(y, x);
+      if (playStr[ind] !== 0) {
+        playBoard[y][x] = playStr[ind];
+      }
+    }
+  }
+  for (const cell of cells) {
+    if (cell.value !== "") {
+      cell.disabled = true;
+      cell.classList.add("set");
+    }
+  }
+  return true;
+};
+
 const updatePlayStr = () => {
+  if (playStr == undefined) {
+    playStr = blankBoard.flat();
+  }
   for (let i = 0; i < 81; i++) {
     if (cells[i].value == "") continue;
     playStr[i] = Number(cells[i].value);
@@ -200,10 +346,10 @@ const updateNumberDisplay = (num) => {
       count++;
     }
   }
-  if ((count = 9)) {
-    numberDisplay[count - 1].classList.add("done");
-  } else {
-    numberDisplay[count - 1].classList.remove("done");
+  if (count == 9) {
+    numberDisplay[num - 1].classList.add("done");
+  } else if (numberDisplay[num - 1].classList.contains("done") == true) {
+    numberDisplay[num - 1].classList.remove("done");
   }
 };
 
@@ -217,6 +363,7 @@ const giveHint = () => {
       cells[cell].value = playStr[cell];
       cells[cell].classList.add("hint");
       cells[cell].disabled = true;
+      updateNumberDisplay(cells[cell].value);
       return;
     }
     continue;
@@ -224,15 +371,21 @@ const giveHint = () => {
 };
 
 const checkWrong = () => {
+  let wrongs = 0;
   for (let i = 0; i < 81; i++) {
     if (playStr[i] == 0 || playStr[i] == "") {
       cells[i].classList.remove("wrong");
-      continue;
     }
-
     if (playStr[i] !== gameStr[i]) {
-      cells[i].classList.add("wrong");
+      wrongs++;
+      if (cells[i].value !== "") {
+        cells[i].classList.add("wrong");
+      }
     }
+  }
+  if (wrongs == 0) {
+    playAgain.classList.remove("hidden");
+    cover.classList.add("cover");
   }
 };
 
@@ -495,11 +648,6 @@ const completed = () => {};
 
 let timer = 10;
 
-const beginBrute = () => {
-  safeboard = getCopyOfBoard(board);
-  smartBrute(board);
-};
-
 const easyBrute = () => {
   start();
   smartBrute(board);
@@ -508,6 +656,7 @@ const easyBrute = () => {
 let iterations = 0;
 
 const smartBrute = (board) => {
+  // console.log(iterations);
   iterations++;
   timer += 5;
   const ops = emptyCell(board);
@@ -530,13 +679,16 @@ const smartBrute = (board) => {
     }, timer);
     smartBrute(board);
   }
-  // if (emptyCell(board)[0] !== -1) {
-  //   board[y][x] = 0;
-  //   setTimeout(() => {
-  //     cells[cellInd].innerHTML = "";
-  //   }, timer);
-  //   return board;
-  // }
+  if (emptyCell(board)[0] !== -1) {
+    board[y][x] = 0;
+    // console.log("backtrack");
+    // setTimeout(() => {
+    //   cells[cellInd].innerHTML = "";
+    // }, timer);
+    return board;
+  }
+
+  return;
 };
 
 const start = () => {
@@ -579,6 +731,28 @@ const isolate = () => {
   return false;
 };
 
+const checkBoard = (board) => {
+  for (let y = 0; y < 9; y++) {
+    for (let i = 1; i < 10; i++) {
+      let count = 0;
+      for (let x = 0; x < 9; x++) {
+        if (board[x][y] == 0) {
+          console.log("board not complete");
+          return false;
+        }
+        if (board[x][y] == i) {
+          count++;
+        }
+      }
+      if (count !== 1) {
+        console.log("not valid");
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
 // for future use for brute force
 const startBrute = () => {
   findFirst();
@@ -604,13 +778,18 @@ async function run() {
   while (isolated !== false) {
     start();
     isolated = isolate();
-    await timeControl(5);
+    await timeControl(10);
   }
+
   if (emptyCell(board)[0] == -1) {
     console.log("finished");
     return;
   }
-  beginBrute();
+  console.log("trying brute");
+  easyBrute();
+  let isFinished = checkBoard(board);
+  console.log(isFinished);
+  return isFinished;
 }
 
 // gives ui clean board
